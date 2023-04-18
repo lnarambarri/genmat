@@ -26,6 +26,6 @@ function( mats, normalizeto=NULL, cores ="max" ){
 	}, mc.cores=cores )
 
 	outnames<-paste(matnames,"_qnorm.",exts, sep="")
-	mclapply(1:nummats, function(x) write.mat(matlist[[x]],file=outnames[x]) ,mc.cores=detectCores() )
+	mclapply(1:nummats, function(x) matWrite(matlist[[x]],file=outnames[x]) ,mc.cores=detectCores() )
 	return(outnames)
 }
