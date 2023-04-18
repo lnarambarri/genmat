@@ -23,7 +23,7 @@ function( matlist1 , matlist2=NULL , operation="difference" , outnames = NULL , 
 	if( length(matlist1)==1 & is.null(matlist2) ){
 		if(operation %ni% c("log2","log10","antilog2","antilog10","inverse")) { stop("operations that can be performed on a single matrix include log2, log10, antilog2, antilog10, and inverse")}
 		if(is.null(outnames)){outnames <- paste0 (basename(removeext(matlist1)) , "_",operation,".",matlist1ext)}
-		mat<-read.mat(matlist1)
+		mat<-matRead(matlist1)
 		if(sum(grepl(0,mat))>0){cat("WARNING: MATRIX CONTAINS ZEROES THAT WILL BE INFINITE IF CALCULATING A LOGARITHMIC\n")}
 		if(operation=="log2"){ mat<-log2(mat) }
 		if(operation=="log10"){ mat<-log10(mat) }
@@ -39,7 +39,7 @@ function( matlist1 , matlist2=NULL , operation="difference" , outnames = NULL , 
 		if(operation != "mean") { stop("you can only calculate the mean on a single set of matrices")}
 		if(is.null(outnames)){stop("must specify output matrix filename. be sure to match the extension of the inputs")}
 		if(length(outnames)!=1){stop("must have only 1 string in 'outname'")}
-		mats<-lapply(matlist1,read.mat)
+		mats<-lapply(matlist1,matRead)
 		if(length(unique(lapply(lapply(lapply(mats,dim),as.character),paste,collapse="-"))) != 1 ){stop("dimensions of matrices are not equal")}
 		outmat<-Reduce('+',mats)/length(mats)
 		matWrite(outmat,file=outnames)
@@ -57,8 +57,8 @@ function( matlist1 , matlist2=NULL , operation="difference" , outnames = NULL , 
 		if( is.null(outnames)==FALSE){ if(length(outnames) != length(matlist1)){ stop("outnames must be of same length as matlist1")} }
 
 
-		mats1<-lapply(matlist1,read.mat)
-		mats2<-lapply(matlist2,read.mat)
+		mats1<-lapply(matlist1,matRead)
+		mats2<-lapply(matlist2,matRead)
 
 		# check matrix have identical dimensions
 		ml1<-unlist(lapply(lapply(lapply(mats1,dim),as.character),paste,collapse="-"))
