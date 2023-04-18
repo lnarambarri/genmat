@@ -7,7 +7,7 @@ function( mats, normalizeto=NULL, cores ="max" ){
 	if(cores > nummats){cores=nummats}
 	matnames<-basename(removeext(mats))
 	exts<-file_ext(mats)
-	matlist<-mclapply(mats,read.mat,mc.cores=detectCores())
+	matlist<-mclapply(mats,matRead,mc.cores=detectCores())
 
 	if(is.null(normalizeto)){
 		scores <- as.vector(unlist(matlist))
